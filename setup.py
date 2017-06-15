@@ -9,9 +9,10 @@ setup(
     author_email='sreekumar.balan@alpha-i.co',
     packages=find_packages(exclude=['doc', 'tests*']),
     install_requires=[
-        'numpy==1.11.3',
+        'numpy==1.13.0',
         'emcee==2.2.1',
         'corner==2.0.1',
-        'scipy==0.18.1'
+        'scipy==0.19.0',
+        'pymc3==3.0'
     ]
 )
