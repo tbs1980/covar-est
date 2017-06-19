@@ -24,3 +24,15 @@ def posterior_jeffreys_prior(omega, zeta, sum_y2, n):
     if omega <= 0.:
         return np.inf
     return posterior(omega, zeta, sum_y2, n)/sqrt(omega)
+
+
+def log_posterior_hierarchical_jeffreys_prior(omega, zeta, sum_y2, n):
+    if omega <= 0.:
+        return -np.inf
+    return log_posterior(omega, zeta, sum_y2, n) - 0.5*log(omega + zeta)
+
+
+def posterior_hierarchical_jeffreys_prior(omega, zeta, sum_y2, n):
+    if omega <= 0.:
+        return np.inf
+    return posterior(omega, zeta, sum_y2, n)/sqrt(omega + zeta)

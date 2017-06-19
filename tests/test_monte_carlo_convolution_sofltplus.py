@@ -15,7 +15,7 @@ def log_prob(x, zeta_in, y):
     return log_posterior(nu=x[-1], zeta=zeta_in, y=y, x=x[:-1])
 
 
-omega_true = 1.
+omega_true = 1e-2
 zeta = 1.
 n = 20
 
