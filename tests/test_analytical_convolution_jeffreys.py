@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import emcee
 from covariance_estimation.analytical_covolution import (log_posterior_jeffreys_prior, posterior_jeffreys_prior)
 from scipy import integrate
-import seaborn
+# import seaborn
 from math import sqrt
 import pymc3
 
@@ -13,7 +13,7 @@ ndim = 1
 nwalkers = 10
 
 zeta = 1.
-sum_y2 = 21.9802082382
+sum_y2 = 22.1997883227
 n = 20
 omega_true = 1e-2
 a = n+1.
@@ -60,7 +60,7 @@ if len(omega_est_hpd) == 1:
                       x2=np.asarray([right_line, right_line]), label='hpd', alpha=0.1)
 plt.ylim([ax[2], ax[3]])
 plt.xlim(omega_min, omega_max)
-plt.xlabel(r'$\omega$')
-plt.ylabel(r'$p(\omega)$')
+# plt.xlabel(r'$\omega$')
+# plt.ylabel(r'$p(\omega)$')
 plt.legend()
 plt.show()
