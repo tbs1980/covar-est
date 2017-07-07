@@ -2,7 +2,6 @@ import numpy as np
 from covariance_estimation.monte_carlo_convolution import log_posterior
 import emcee
 import matplotlib.pyplot as plt
-# import seaborn
 from covariance_estimation.analytical_covolution import posterior as ana_post
 from math import sqrt
 from scipy import integrate
@@ -14,7 +13,7 @@ def log_prob(x, zeta_in, y):
     return log_posterior(omega=x[-1], zeta=zeta_in, y=y, x=x[:-1])
 
 
-omega_true = 1e-2
+omega_true = 1
 zeta = 1.
 n = 20
 

@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 import emcee
 from covariance_estimation.analytical_covolution import (log_posterior_jeffreys_prior, posterior_jeffreys_prior)
 from scipy import integrate
-# import seaborn
-from math import sqrt
+from math import sqrt, log10
 import pymc3
 
 np.random.seed(31415)
@@ -13,15 +12,17 @@ ndim = 1
 nwalkers = 10
 
 zeta = 1.
-sum_y2 = 22.1997883227
+sum_y2 = 43.9599768767
 n = 20
-omega_true = 1e-2
+omega_true = 1.
 a = n+1.
 b = (n+2.)*zeta - sum_y2
 c = zeta**2
 print('b = ', b)
 delta = b**2 - 4.*a*c
 print('delta = ', delta)
+omega_bar_1 = None
+omega_bar_2 = None
 if delta >= 0:
     omega_bar_1 = (-b + sqrt(delta)) / 2. / a
     omega_bar_2 = (-b - sqrt(delta)) / 2. / a
@@ -37,20 +38,25 @@ omega_est_mean = np.mean(samples)
 omega_est_hpd = pymc3.stats.hpd(samples)
 print('omega_est_hpd = ', omega_est_hpd)
 ax = plt.axis()
-omega_min = max(ax[0], 0.)
+omega_min = max(ax[0], 0)
 omega_max = ax[1]
+print('omega_min = ', omega_min)
 plt.clf()
-plt.hist(samples, histtype='step', normed=True, bins=30, range=(0, omega_max), label='samples')
+plt.hist(samples, histtype='step', normed=True, bins=100, range=(0, omega_max), label='samples')
 
 nrm = integrate.quad(posterior_jeffreys_prior, a=omega_min, b=omega_max, args=(zeta, sum_y2, n))
-omega = np.linspace(omega_min, omega_max, 200)
+omega = np.linspace(omega_min, omega_max, 5000)
 post = np.zeros(len(omega))
 for i in range(len(omega)):
     post[i] = posterior_jeffreys_prior(omega[i], zeta, sum_y2, n)
 
 plt.plot(omega, post/nrm[0], label='analytical')
 ax = plt.axis()
-# plt.plot([omega_bar, omega_bar], [ax[2], ax[3]])
+if omega_bar_1 is not None:
+    plt.plot([omega_bar_1, omega_bar_1], [ax[2], ax[3]], label='MAP-1')
+if omega_bar_2 is not None:
+    plt.plot([omega_bar_2, omega_bar_2], [ax[2], ax[3]], label='MAP-2')
+
 plt.plot([omega_est_mean, omega_est_mean], [ax[2], ax[3]], label='mean')
 plt.plot([omega_true, omega_true],[ax[2], ax[3]], label='true')
 if len(omega_est_hpd) == 1:
@@ -60,7 +66,7 @@ if len(omega_est_hpd) == 1:
                       x2=np.asarray([right_line, right_line]), label='hpd', alpha=0.1)
 plt.ylim([ax[2], ax[3]])
 plt.xlim(omega_min, omega_max)
-# plt.xlabel(r'$\omega$')
-# plt.ylabel(r'$p(\omega)$')
+plt.xlabel(r'$\omega$')
+plt.ylabel(r'$p(\omega)$')
 plt.legend()
 plt.show()

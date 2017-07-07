@@ -1,5 +1,12 @@
+from os.path import realpath, dirname, join
 from setuptools import setup
 from setuptools import find_packages
+
+PROJECT_ROOT = dirname(realpath(__file__))
+REQUIREMENTS_FILE = join(PROJECT_ROOT, 'requirements.txt')
+
+with open(REQUIREMENTS_FILE) as f:
+    install_reqs = f.read().splitlines()
 
 setup(
     name='covariance_estimation',
@@ -8,11 +15,5 @@ setup(
     author='Sreekumar Thaithara Balan',
     author_email='sreekumar.balan@alpha-i.co',
     packages=find_packages(exclude=['doc', 'tests*']),
-    install_requires=[
-        'numpy==1.13.0',
-        'emcee==2.2.1',
-        'corner==2.0.1',
-        'scipy==0.19.0',
-        'pymc3==3.0'
-    ]
+    install_requires=install_reqs
 )
