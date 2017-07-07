@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 import emcee
 from covariance_estimation.analytical_covolution import (log_posterior, posterior)
 from scipy import integrate
-import seaborn
+
+# here we test the analytical convolution with uniform prior on omega.
+# the map of the posterior is given by sum_y2/n - zeta.
 
 ndim = 1
 nwalkers = 10
